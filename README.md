@@ -26,14 +26,14 @@ in the grading.
 Q.1 Modeling (Lecture 2)
 Formulate the Trueskill Bayesian model for one match between two players. The model consists
 of four random variables, two Gaussian random variables s1 and s2 for the skills of the players,
-one Gaussian random variable t, with mean s1 􀀀 s2, for the outcome of the game, and one discrete
+one Gaussian random variable t, with mean s1 - s2, for the outcome of the game, and one discrete
 random variable y = sign(t) for the result of the game (there is no possibility of a draw between
 the players). Note that there are 5 hyperparameters in the model whose values you have to set. You
-can read about TrueSkill on the Microsoft research website4, on the original publication5, or on Jeff
-Moser’s website6.
+can read about TrueSkill on the Microsoft research website, on the original publication, or on Jeff
+Moser’s website.
 3http://www.it.uu.se/edu/course/homepage/apml/project/SerieA.csv (accessed: 29 Aug
 2019)
-4https://www.microsoft.com/en-us/research/project/trueskill-ranking-system (accessed:
+https://www.microsoft.com/en-us/research/project/trueskill-ranking-system (accessed:
 14 Jun 2019)
 5Herbrich, Minka, Graepel, “TrueSkill(TM): A Bayesian Skill Rating System,” Advances in Neural Information
 Processing Systems, January 2007, MIT Press
@@ -41,8 +41,8 @@ Processing Systems, January 2007, MIT Press
 
 Q.2 Computing with the model
 Using results on Gaussian random variables, compute
--> p(s1; s2jt; y): the full conditional distribution of the skills,
--> p(tjs1; s2; y): the full conditional distribution of the outcome,
+-> p(s1,s2|t,y): the full conditional distribution of the skills,
+-> p(t|s1,s2,y): the full conditional distribution of the outcome,
 -> p(y = 1) the marginal probability that Player 1 wins the game. Hint: p(y = 1) = p(t > 0).
 
 Q.3 Bayesian Network
@@ -53,7 +53,7 @@ Q.4 A first Gibbs sampler
 In this question, you will implement a method based on Gibbs sampling to compute the posterior
 distribution of the skills s1 and s2 given the result of one match y.
 Using the results of Q.2 and Q.3, implement a Gibbs sampler that targets the posterior distribution
-p(s1; s2jy) of the skills given the result of one game between two players. Consider the same prior
+p(s1,s2|y) of the skills given the result of one game between two players. Consider the same prior
 distributions for the two players (p(s1) and p(s2) have the same hyperparameters).
 -> Only the stationary distibution of the Gibbs sampler represents the posterior distribution of
 the skills. Initial samples will depend on the initial condition of the chain and may be far
@@ -71,8 +71,8 @@ of the estimate and computational time. Plot the histogram of the samples genera
 burn-in) together with the fitted Gaussian posterior for at least four (4) different numbers of
 samples and report the time required to draw the samples. What is a reasonable number of
 samples? Comment on your choice.
--> Compare the prior p(s1) with the Gaussian approximation of the posterior p(s1jy = 1);
-similarly compare p(s2) with p(s2jy = 1). What has happened? Comment.
+-> Compare the prior p(s1) with the Gaussian approximation of the posterior p(s1|y = 1);
+similarly compare p(s2) with p(s2|y = 1). What has happened? Comment.
 
 Q.5 Assumed Density Filtering 
 The Gibbs sampler from Q.4 processes the result of one match to give a posterior distribution of
@@ -81,7 +81,7 @@ what is commonly known as assumed density filtering (ADF). In this way, we can p
 of different matches between the players, each time using the posterior distribution of the previous
 match as the prior for the current match.
 -> Use ADF with Gibbs sampling to process the matches in the SerieA dataset and estimate
-the skill of all the teams in the dataset (each team is one Player with an associated skill si).
+the skill of all the teams in the dataset (each team is one Player with an associated skill st).
 Note that there are draws in the dataset! For now, skip these matches and suppose that they
 leave the skill unchanged for both players.
 What is the final ranking? Present the results in a suitable way. How can you interpret the
